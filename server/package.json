@@ -1,0 +1,41 @@
+{
+  "name": "express-server",
+  "version": "1.0.0",
+  "description": "A nodejs, express & typescript rest api",
+  "main": "./dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node ./src/server.ts",
+    "start": "node ./dist/server.js",
+    "prod": "npm run build && npm run start",
+    "test": "jest ./src"
+  },
+  "keywords": [
+    "nodejs",
+    "typescript"
+  ],
+  "author": "Josef Heiss",
+  "license": "ISC",
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "pg": "^7.4.3",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.4",
+    "@types/express": "^4.16.0",
+    "@types/jest": "^23.3.1",
+    "@types/pg": "^7.4.10",
+    "@types/redis": "^2.8.6",
+    "jest": "^23.5.0",
+    "nodemon": "^1.18.4",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.0.3"
+  }
+}
