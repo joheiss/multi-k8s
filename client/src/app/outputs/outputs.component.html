@@ -1,0 +1,11 @@
+<div class="info__block">
+  <h2>Indices I have seen:</h2>
+  <div *ngIf="indexes">{{showList(indexes)}}</div>
+</div>
+
+<div class="info__block">
+  <h2>Calculated Values:</h2>
+  <ul *ngIf="values">
+    <li *ngFor="let result of values">For index {{result.index}}, I calculated {{result.result}}</li>
+  </ul>
+</div>

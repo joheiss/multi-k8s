@@ -1,0 +1,9 @@
+<form #form="ngForm" (ngSubmit)="onSubmit(form.value)" autocomplete="off" novalidate>
+  <div>
+    <label for="index">Enter your index: </label>
+    <input type="number" id="index" name="index" ngModel required>
+  </div>
+  <div>
+    <button type="submit">Submit</button>
+  </div>
+</form>
