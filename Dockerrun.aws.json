@@ -10,17 +10,20 @@
     },
     {
       "name": "server",
+      "memoryReservation": 128,
       "image": "joheiss/multi-server-prod",
       "hostname": "api",
       "essential": false
     },
     {
       "name": "worker",
+      "memoryReservation": 128,
       "image": "joheiss/multi-worker-prod",
       "essential": false
     },
     {
       "name": "nginx",
+      "memoryReservation": 128,
       "image": "joheiss/multi-nginx-prod",
       "essential": true,
       "portMappings": [
