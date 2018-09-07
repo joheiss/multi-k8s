@@ -1,0 +1,38 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "client",
+      "image": "joheiss/multi-client-prod",
+      "hostname": "client",
+      "essential": false
+    },
+    {
+      "name": "server",
+      "image": "joheiss/multi-server-prod",
+      "hostname": "api",
+      "essential": false
+    },
+    {
+      "name": "worker",
+      "image": "joheiss/multi-worker-prod",
+      "essential": false
+    },
+    {
+      "name": "nginx",
+      "image": "joheiss/multi-nginx-prod",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": [
+        "client",
+        "server"
+      ]
+    }
+  ]
+}
+

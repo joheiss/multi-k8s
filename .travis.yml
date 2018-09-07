@@ -23,3 +23,15 @@ after_success:
  - docker push joheiss/multi-worker-prod
  - docker push joheiss/multi-nginx-prod
 
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-central-1"
+  app: "multi-docker"
+  env: "MultiDocker-env"
+  bucket_name: "elasticbeanstalk-eu-central-1-577161315079"
+  bucket_path: "multi-docker"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
