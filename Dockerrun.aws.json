@@ -6,7 +6,7 @@
       "image": "joheiss/multi-client-prod",
       "hostname": "client",
       "essential": false,
-      "memory": 256
+      "memory": 128
     },
     {
       "name": "server",
