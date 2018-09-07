@@ -13,5 +13,5 @@ RUN npm run build -- --output-path=./dist/out --configuration $configuration
 # Run phase
 FROM nginx:alpine
 EXPOSE 3000
-COPY /app/nginx/default.conf /etc/nginx/conf.d./default.conf
+COPY --from=build-stage /app/nginx/default.conf /etc/nginx/conf.d./default.conf
 COPY --from=build-stage /app/dist/out/ /usr/share/nginx/html
