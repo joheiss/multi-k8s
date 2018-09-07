@@ -6,8 +6,8 @@
       "image": "joheiss/multi-client-prod",
       "hostname": "client",
       "essential": false,
-      "memory": 128,
-      "memoryReservation": 256
+      "memory": 256,
+      "memoryReservation": 128
     },
     {
       "name": "server",
@@ -26,8 +26,8 @@
       "name": "nginx",
       "image": "joheiss/multi-nginx-prod",
       "essential": true,
-      "memory": 128,
-      "memoryReservation": 256,
+      "memory": 256,
+      "memoryReservation": 128,
       "portMappings": [
         {
           "hostPort": 80,
