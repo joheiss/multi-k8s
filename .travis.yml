@@ -12,16 +12,3 @@ script:
  - docker run joheiss/server-test npm run test
  - docker run joheiss/worker-test npm run test
 
-after_success:
- - docker build -t joheiss/multi-client-prod ./client
- - docker build -t joheiss/multi-server-prod ./server
- - docker build -t joheiss/multi-worker-prod ./worker
- - docker build -t joheiss/multi-nginx-prod ./nginx
-# login to docker cli
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-# push images to docker hub
-- docker push /joheiss/multi-client-prod
-- docker push /joheiss/multi-server-prod
-- docker push /joheiss/multi-worker-prod
-- docker push /joheiss/multi-nginx-prod
-
