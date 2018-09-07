@@ -26,7 +26,7 @@ export class Routes {
                 cache.on('error', err => console.log);
                 cache.hgetall('values', (err, values) => {
                     if (err) {
-                        console.log('error at get current values: ', err);
+                        console.error('error at get current values: ', err);
                     } else {
                         console.log('values at get current values: ', values);
                     }
