@@ -2,6 +2,7 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
+      "memoryReservation": 256,
       "name": "client",
       "image": "joheiss/multi-client-prod",
       "hostname": "client",
