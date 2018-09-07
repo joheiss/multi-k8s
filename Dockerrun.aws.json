@@ -25,6 +25,7 @@
     {
       "name": "nginx",
       "image": "joheiss/multi-nginx-prod",
+      "hostname": "nginx",
       "essential": true,
       "memory": 256,
       "memoryReservation": 128,
