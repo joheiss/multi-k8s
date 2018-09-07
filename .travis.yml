@@ -12,3 +12,9 @@ script:
  - docker run joheiss/server-test npm run test
  - docker run joheiss/worker-test npm run test
 
+after_success:
+ - docker build -t joheiss/multi-client-prod ./client
+ - docker build -t joheiss/multi-server-prod ./server
+ - docker build -t joheiss/multi-worker-prod ./worker
+ - docker build -t joheiss/multi-nginx-prod ./nginx
+
