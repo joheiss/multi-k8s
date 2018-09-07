@@ -2,30 +2,30 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
-      "memoryReservation": 256,
       "name": "client",
       "image": "joheiss/multi-client-prod",
       "hostname": "client",
-      "essential": false
+      "essential": false,
+      "memory": 256
     },
     {
       "name": "server",
-      "memoryReservation": 128,
       "image": "joheiss/multi-server-prod",
       "hostname": "api",
-      "essential": false
+      "essential": false,
+      "memory": 128
     },
     {
       "name": "worker",
-      "memoryReservation": 128,
       "image": "joheiss/multi-worker-prod",
-      "essential": false
+      "essential": false,
+      "memory": 128
     },
     {
       "name": "nginx",
-      "memoryReservation": 128,
       "image": "joheiss/multi-nginx-prod",
       "essential": true,
+      "memory": 128,
       "portMappings": [
         {
           "hostPort": 80,
