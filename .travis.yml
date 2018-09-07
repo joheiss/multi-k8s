@@ -18,10 +18,10 @@ after_success:
  - docker build -t joheiss/multi-worker-prod ./worker
  - docker build -t joheiss/multi-nginx-prod ./nginx
  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+ - docker push joheiss/multi-nginx-prod
  - docker push joheiss/multi-client-prod
  - docker push joheiss/multi-server-prod
  - docker push joheiss/multi-worker-prod
- - docker push joheiss/multi-nginx-prod
 
 deploy:
   provider: elasticbeanstalk
