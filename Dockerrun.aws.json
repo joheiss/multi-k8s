@@ -2,6 +2,22 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
+      "name": "nginx-proxy",
+      "image": "joheiss/multi-nginx",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": [
+        "client",
+        "server"
+      ]
+    },
+    {
       "name": "client",
       "image": "joheiss/multi-client",
       "hostname": "client",
@@ -20,22 +36,6 @@
       "image": "joheiss/multi-worker",
       "essential": false,
       "memory": 128
-    },
-    {
-      "name": "nginx-proxy",
-      "image": "joheiss/multi-nginx",
-      "essential": true,
-      "memory": 128,
-      "portMappings": [
-        {
-          "hostPort": 80,
-          "containerPort": 80
-        }
-      ],
-      "links": [
-        "client",
-        "server"
-      ]
     }
   ]
 }

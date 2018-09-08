@@ -13,10 +13,10 @@ script:
  - docker run joheiss/worker-test npm run test
 
 after_success:
+ - docker build -t joheiss/multi-nginx ./nginx
  - docker build -t joheiss/multi-client ./client
  - docker build -t joheiss/multi-server ./server
  - docker build -t joheiss/multi-worker ./worker
- - docker build -t joheiss/multi-nginx ./nginx
  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
  - docker push joheiss/multi-nginx
  - docker push joheiss/multi-client
