@@ -9,5 +9,6 @@ RUN npm run build
 # Run phase
 FROM node:alpine
 WORKDIR '/app'
-COPY --from=build-stage /app/dist /app/dist
+COPY --from=build-stage /app /app
+# COPY --from=build-stage /app/dist /app/dist
 CMD ["npm", "run", "start"]
