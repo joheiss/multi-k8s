@@ -11,7 +11,7 @@ ARG configuration=production
 RUN npm run build -- --output-path=./dist/out --configuration $configuration
 
 # Run phase
-FROM nginx
+FROM nginx:alpine
 
 EXPOSE 3000
 COPY --from=build-stage /app/nginx/default.conf /etc/nginx/conf.d./default.conf
