@@ -3,28 +3,27 @@
   "containerDefinitions": [
     {
       "name": "client",
-      "image": "joheiss/multi-client-prod",
+      "image": "joheiss/multi-client",
       "hostname": "client",
       "essential": false,
       "memory": 128
     },
     {
       "name": "server",
-      "image": "joheiss/multi-server-prod",
+      "image": "joheiss/multi-server",
       "hostname": "api",
       "essential": false,
       "memory": 128
     },
     {
       "name": "worker",
-      "image": "joheiss/multi-worker-prod",
+      "image": "joheiss/multi-worker",
       "essential": false,
       "memory": 128
     },
     {
-      "name": "nginx",
-      "image": "joheiss/multi-nginx-prod",
-      "hostname": "nginx",
+      "name": "nginx-proxy",
+      "image": "joheiss/multi-nginx",
       "essential": true,
       "memory": 128,
       "portMappings": [

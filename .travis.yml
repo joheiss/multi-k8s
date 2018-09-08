@@ -13,23 +13,23 @@ script:
  - docker run joheiss/worker-test npm run test
 
 after_success:
- - docker build -t joheiss/multi-client-prod ./client
- - docker build -t joheiss/multi-server-prod ./server
- - docker build -t joheiss/multi-worker-prod ./worker
- - docker build -t joheiss/multi-nginx-prod ./nginx
+ - docker build -t joheiss/multi-client ./client
+ - docker build -t joheiss/multi-server ./server
+ - docker build -t joheiss/multi-worker ./worker
+ - docker build -t joheiss/multi-nginx ./nginx
  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
- - docker push joheiss/multi-nginx-prod
- - docker push joheiss/multi-client-prod
- - docker push joheiss/multi-server-prod
- - docker push joheiss/multi-worker-prod
+ - docker push joheiss/multi-nginx
+ - docker push joheiss/multi-client
+ - docker push joheiss/multi-server
+ - docker push joheiss/multi-worker
 
 deploy:
   provider: elasticbeanstalk
   region: eu-central-1
-  app: multi-docker
-  env: MultiDocker-env
+  app: multi-docker-ng6
+  env: MultiDockerNg6-env
   bucket_name: elasticbeanstalk-eu-central-1-577161315079
-  bucket_path: multi-docker
+  bucket_path: multi-docker-ng6
   on:
     branch: master
   access_key_id: $AWS_ACCESS_KEY
