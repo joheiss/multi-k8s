@@ -54,7 +54,9 @@ export class App {
             password: ServerKeys.pgPassword,
             host: ServerKeys.pgHost,
             port: +ServerKeys.pgPort,
-            database: ServerKeys.pgDatabase
+            database: ServerKeys.pgDatabase,
+            idleTimeoutMillis: 30000,
+            connectionTimeoutMillis: 15000
         });
         this.db.on('error', () => console.log(`Lost connection to Postgres database`));
         this.db.query('CREATE TABLE IF NOT EXISTS values(number INT)')
