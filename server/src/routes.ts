@@ -1,28 +1,29 @@
-import {Request, Response} from "express";
+import {Request, Response} from 'express';
 import {RedisClient} from 'redis';
 import {Pool} from 'pg';
+import {Utils} from './utils';
 
 export class Routes {
 
     public routes(app, db: Pool, cache: RedisClient, cachePublisher: RedisClient): void {
         app.route('/')
             .get((req: Request, res: Response) => {
-                console.log(`New visit!`);
+                Utils.log(`New visit!`);
                 cache.get('visits', (err: any, visits: string) => {
                     res.status(200).send(`Number of visits: ${visits}`);
-                   cache.set('visits', (+visits + 1).toString());
+                    cache.set('visits', (+visits + 1).toString());
                 });
             });
         app.route('/values/all')
-            .get(async(req: Request, res: Response) => {
-                console.log('Get all values');
+            .get(async (req: Request, res: Response) => {
+                Utils.log('Get all values');
                 const values = await db.query('SELECT * FROM values');
                 console.log('All values: ', values.rows);
                 res.status(200).send(values.rows);
             });
         app.route('/values/current')
-            .get(async(req: Request, res: Response) => {
-                console.log('Get current values');
+            .get(async (req: Request, res: Response) => {
+                Utils.log('Get current values');
                 cache.on('error', err => console.log);
                 cache.hgetall('values', (err, values) => {
                     if (err) {
@@ -39,8 +40,8 @@ export class Routes {
                 });
             });
         app.route('/values')
-            .post(async(req: Request, res: Response) => {
-                console.log('Post index');
+            .post(async (req: Request, res: Response) => {
+                Utils.log('Post index');
                 const index = req.body.index;
                 if (+index > 40) {
                     return res.status(422).send('Index too high!');
@@ -48,7 +49,7 @@ export class Routes {
                 cache.hset('values', index, 'Nothing yet!');
                 cachePublisher.publish('insert', index);
                 db.query('INSERT INTO values(number) VALUES($1)', [index]);
-                res.status(200).send({ working: true });
+                res.status(200).send({working: true});
             });
     }
 }

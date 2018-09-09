@@ -8,11 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = require("./utils");
 class Routes {
     routes(app, db, cache, cachePublisher) {
         app.route('/')
             .get((req, res) => {
-            console.log(`New visit!`);
+            utils_1.Utils.log(`New visit!`);
             cache.get('visits', (err, visits) => {
                 res.status(200).send(`Number of visits: ${visits}`);
                 cache.set('visits', (+visits + 1).toString());
@@ -20,14 +21,14 @@ class Routes {
         });
         app.route('/values/all')
             .get((req, res) => __awaiter(this, void 0, void 0, function* () {
-            console.log('Get all values');
+            utils_1.Utils.log('Get all values');
             const values = yield db.query('SELECT * FROM values');
             console.log('All values: ', values.rows);
             res.status(200).send(values.rows);
         }));
         app.route('/values/current')
             .get((req, res) => __awaiter(this, void 0, void 0, function* () {
-            console.log('Get current values');
+            utils_1.Utils.log('Get current values');
             cache.on('error', err => console.log);
             cache.hgetall('values', (err, values) => {
                 if (err) {
@@ -46,7 +47,7 @@ class Routes {
         }));
         app.route('/values')
             .post((req, res) => __awaiter(this, void 0, void 0, function* () {
-            console.log('Post index');
+            utils_1.Utils.log('Post index');
             const index = req.body.index;
             if (+index > 40) {
                 return res.status(422).send('Index too high!');

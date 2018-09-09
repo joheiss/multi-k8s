@@ -6,6 +6,7 @@ import { Pool } from "pg";
 import { Routes } from "./routes";
 import { RedisClient, createClient } from "redis";
 import {ServerKeys} from './keys';
+import {Utils} from './utils';
 
 export class App {
     public app: express.Application;
@@ -32,7 +33,7 @@ export class App {
     }
 
     private setupCache(): void {
-        console.log('connecting redis ...');
+        Utils.log(`Connecting to redis ...`);
         this.cache = createClient({
             host: ServerKeys.redisHost,
             port: +ServerKeys.redisPort,
@@ -41,14 +42,14 @@ export class App {
         this.cachePublisher = this.cache.duplicate();
 
         this.cache.on('connect', () => {
-            console.log('Connected to Redis server');
+            Utils.log('Connected to Redis server');
             this.cache.set('visits', '0');
         });
-        this.cache.on('error', err => console.log(`Cannot connect to Redis server: ${err.message}`));
+        this.cache.on('error', err => Utils.log(`Cannot connect to Redis server: ${err.message}`));
     }
 
     private setupDatabase(): void {
-        console.log('connecting postgres ...');
+        Utils.log(`Connecting to postgres ...`);
         this.db = new Pool({
             user: ServerKeys.pgUser,
             password: ServerKeys.pgPassword,
@@ -58,7 +59,7 @@ export class App {
             idleTimeoutMillis: 30000,
             connectionTimeoutMillis: 15000
         });
-        this.db.on('error', () => console.log(`Lost connection to Postgres database`));
+        this.db.on('error', () => Utils.log(`Lost connection to Postgres database`));
         this.db.query('CREATE TABLE IF NOT EXISTS values(number INT)')
             .catch(err => console.error(err));
     }

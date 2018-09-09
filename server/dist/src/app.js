@@ -7,6 +7,7 @@ const pg_1 = require("pg");
 const routes_1 = require("./routes");
 const redis_1 = require("redis");
 const keys_1 = require("./keys");
+const utils_1 = require("./utils");
 class App {
     constructor() {
         this.routes = new routes_1.Routes();
@@ -24,7 +25,7 @@ class App {
         this.setupCache();
     }
     setupCache() {
-        console.log('connecting redis ...');
+        utils_1.Utils.log(`Connecting to redis ...`);
         this.cache = redis_1.createClient({
             host: keys_1.ServerKeys.redisHost,
             port: +keys_1.ServerKeys.redisPort,
@@ -32,21 +33,23 @@ class App {
         });
         this.cachePublisher = this.cache.duplicate();
         this.cache.on('connect', () => {
-            console.log('Connected to Redis server');
+            utils_1.Utils.log('Connected to Redis server');
             this.cache.set('visits', '0');
         });
-        this.cache.on('error', err => console.log(`Cannot connect to Redis server: ${err.message}`));
+        this.cache.on('error', err => utils_1.Utils.log(`Cannot connect to Redis server: ${err.message}`));
     }
     setupDatabase() {
-        console.log('connecting postgres ...');
+        utils_1.Utils.log(`Connecting to postgres ...`);
         this.db = new pg_1.Pool({
             user: keys_1.ServerKeys.pgUser,
             password: keys_1.ServerKeys.pgPassword,
             host: keys_1.ServerKeys.pgHost,
             port: +keys_1.ServerKeys.pgPort,
-            database: keys_1.ServerKeys.pgDatabase
+            database: keys_1.ServerKeys.pgDatabase,
+            idleTimeoutMillis: 30000,
+            connectionTimeoutMillis: 15000
         });
-        this.db.on('error', () => console.log(`Lost connection to Postgres database`));
+        this.db.on('error', () => utils_1.Utils.log(`Lost connection to Postgres database`));
         this.db.query('CREATE TABLE IF NOT EXISTS values(number INT)')
             .catch(err => console.error(err));
     }
