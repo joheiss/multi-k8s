@@ -6,7 +6,7 @@ const cors = require("cors");
 const pg_1 = require("pg");
 const routes_1 = require("./routes");
 const redis_1 = require("redis");
-const keys_1 = require("./keys.");
+const keys_1 = require("./keys");
 class App {
     constructor() {
         this.routes = new routes_1.Routes();

@@ -5,7 +5,7 @@ import { Pool } from "pg";
 
 import { Routes } from "./routes";
 import { RedisClient, createClient } from "redis";
-import {ServerKeys} from './keys.';
+import {ServerKeys} from './keys';
 
 export class App {
     public app: express.Application;
