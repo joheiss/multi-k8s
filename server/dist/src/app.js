@@ -24,6 +24,7 @@ class App {
         this.setupCache();
     }
     setupCache() {
+        console.log('connecting redis ...');
         this.cache = redis_1.createClient({
             host: keys_1.ServerKeys.redisHost,
             port: +keys_1.ServerKeys.redisPort,
@@ -37,6 +38,7 @@ class App {
         this.cache.on('error', err => console.log(`Cannot connect to Redis server: ${err.message}`));
     }
     setupDatabase() {
+        console.log('connecting postgres ...');
         this.db = new pg_1.Pool({
             user: keys_1.ServerKeys.pgUser,
             password: keys_1.ServerKeys.pgPassword,
@@ -45,7 +47,7 @@ class App {
             database: keys_1.ServerKeys.pgDatabase
         });
         this.db.on('error', () => console.log(`Lost connection to Postgres database`));
-        this.db.query('CREATE TABLE IF NOT EXISTS values(number INT')
+        this.db.query('CREATE TABLE IF NOT EXISTS values(number INT)')
             .catch(err => console.error(err));
     }
 }

@@ -22,13 +22,26 @@ class Routes {
             .get((req, res) => __awaiter(this, void 0, void 0, function* () {
             console.log('Get all values');
             const values = yield db.query('SELECT * FROM values');
+            console.log('All values: ', values.rows);
             res.status(200).send(values.rows);
         }));
         app.route('/values/current')
             .get((req, res) => __awaiter(this, void 0, void 0, function* () {
             console.log('Get current values');
+            cache.on('error', err => console.log);
             cache.hgetall('values', (err, values) => {
-                res.status(200).send(values);
+                if (err) {
+                    console.error('error at get current values: ', err);
+                }
+                else {
+                    console.log('values at get current values: ', values);
+                }
+                const entries = [];
+                for (let key in values) {
+                    entries.push({ index: key, result: values[key] });
+                }
+                console.log('current values: ', entries);
+                res.status(200).send(entries);
             });
         }));
         app.route('/values')

@@ -10,5 +10,4 @@ RUN npm run build
 FROM node:alpine
 WORKDIR '/app'
 COPY --from=build-stage /app /app
-# COPY --from=build-stage /app/dist /app/dist
 CMD ["npm", "run", "start"]

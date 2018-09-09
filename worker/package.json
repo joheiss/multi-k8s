@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "ts-node ./src/worker.ts",
-    "start": "node ./dist/worker.js",
+    "start": "node ./dist/src/worker.js",
     "prod": "npm run build && npm run start",
     "test": "jest ./"
   },

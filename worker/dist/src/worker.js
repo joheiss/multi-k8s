@@ -8,8 +8,12 @@ const client = redis_1.createClient({
     retry_strategy: () => 1000
 });
 const subscription = client.duplicate();
+subscription.on('error', err => console.error);
 subscription.on('message', (channel, message) => {
-    client.hset('values', message, fib(parseInt(message)).toString());
+    console.log('worker received message: ', message);
+    const result = fib(parseInt(message));
+    console.log(`calculated fib for index ${message}: ${result}`);
+    client.hset('values', message, result.toString());
 });
 subscription.subscribe('insert');
 function fib(index) {
