@@ -1,0 +1,17 @@
+sudo: required
+services:
+  - docker
+ before_install:
+ # encrypt the service account json using ruby - in a temp docker container
+ # -> docker run -it -v %cd%:/app ruby:2.3 sh
+ # -> gem install travis --no-rdoc --no-ri
+ # -> travis login (with github credentials)
+   - openssl aes-256-cbc -K $encrypted_0c35eebf403c_key -iv $encrypted_0c35eebf403c_iv -in service-account.json.enc -out service-account.json -d
+ # install Google SDK
+   - curl https://sdk.cloud.google.com | bash > /dev/null;
+   - source $HOME/google-cloud-sdk/path.bash.inc
+# install kubectl
+   - gcloud components update kubectl
+# activate Google Cloud Service Account - extremely sensitive!
+   - gcloud auth activate-service-account --key-file service-account.json
+
