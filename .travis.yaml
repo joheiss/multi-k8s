@@ -1,17 +1,43 @@
 sudo: required
 services:
   - docker
- before_install:
+
+env:
+  global:
+    - GIT_SHA=$(git rev-parse HEAD)
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+
+before_install:
  # encrypt the service account json using ruby - in a temp docker container
  # -> docker run -it -v %cd%:/app ruby:2.3 sh
  # -> gem install travis --no-rdoc --no-ri
  # -> travis login (with github credentials)
-   - openssl aes-256-cbc -K $encrypted_0c35eebf403c_key -iv $encrypted_0c35eebf403c_iv -in service-account.json.enc -out service-account.json -d
+  - openssl aes-256-cbc -K $encrypted_0c35eebf403c_key -iv $encrypted_0c35eebf403c_iv -in service-account.json.enc -out service-account.json -d
  # install Google SDK
-   - curl https://sdk.cloud.google.com | bash > /dev/null;
-   - source $HOME/google-cloud-sdk/path.bash.inc
-# install kubectl
-   - gcloud components update kubectl
-# activate Google Cloud Service Account - extremely sensitive!
-   - gcloud auth activate-service-account --key-file service-account.json
+  - curl https://sdk.cloud.google.com | bash > /dev/null;
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  # install kubectl
+  - gcloud components update kubectl
+  # activate Google Cloud Service Account - extremely sensitive!
+  - gcloud auth activate-service-account --key-file service-account.json
+  # bind to Google Cloud Project
+  - gcloud config set project multi-k8s-216306
+  - gcloud config set compute/zone europe-west1-d
+  - gcloud container clusters get-credentials multi-cluster
+  # login to docker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # build development images
+  - docker build -t joheiss/multi-client-test -f ./client/Dockerfile.dev ./client
+  - docker build -t joheiss/multi-server-test -f ./server/Dockerfile.dev ./server
+  - docker build -t joheiss/multi-worker-test -f ./worker/Dockerfile.dev ./worker
 
+script:
+  - docker run joheiss/multi-client-test npm run test
+  - docker run joheiss/multi-server-test npm run test
+  - docker run joheiss/multi-worker-test npm run test
+
+deploy:
+  provider: script
+  script: bash ./deploy.sh
+  on:
+    branch: master
