@@ -60,6 +60,7 @@ export class App {
             connectionTimeoutMillis: 15000
         });
         this.db.on('error', () => Utils.log(`Lost connection to Postgres database`));
+        Utils.log(`... about to create VALUES table`);
         this.db.query('CREATE TABLE IF NOT EXISTS values(number INT)')
             .catch(err => console.error(err));
     }
